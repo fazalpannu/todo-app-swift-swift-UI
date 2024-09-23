@@ -19,7 +19,7 @@ struct ContentView: View {
                 VStack {
                     HStack {
                         
-                        TextField("Please  Enter new task", text: $newTaskName)
+                        TextField("Please  Enter New Task", text: $newTaskName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                         
                         Button(
