@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+// Task Model
+struct Task1: Identifiable, Codable {
+    var id = UUID()
+    var name: String
+}

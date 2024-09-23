@@ -8,17 +8,82 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = TaskViewModel()
+  
+    @State private var newTaskName = ""
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack  {
+            ZStack{
+                
+                VStack {
+                    HStack {
+                        
+                        TextField("Please  Enter new task", text: $newTaskName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        Button(
+                            action: {
+                                if !newTaskName.isEmpty {
+                                    viewModel.addTask(name1: newTaskName)
+                                    
+                                    
+                                    
+                                    newTaskName = ""
+                                }
+                            }) {
+                                Image(systemName: "plus")
+                                
+                            }
+                            .padding()
+                    }
+                    .padding()
+                    
+                    List {
+                        ForEach(viewModel.tasks) { task in
+                            Text(task.name)
+                           
+                        }
+                        .onDelete(perform: viewModel.deleteTask(at:))
+                    }
+                    
+                }
+                
+                if viewModel.isLoading {
+                    
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea()
+                    
+                    
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 100, height: 100)
+                        .overlay(
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .black))
+                                .scaleEffect(2)
+                        )
+                        .background(Color.gray.opacity(0.18))
+                        .cornerRadius(10)
+                }
+            }
+            .navigationTitle("To-Do List")
+            //            .onAppear(){
+            //                print("appearing")
+            //                viewModel.loadTasks()
+            //            }
+            //            .onDisappear() {
+            //                viewModel.saveTasks()
+            //                print("Disappearing")
+            //            }
+        
+            
+            
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+
